@@ -1,17 +1,17 @@
 ---
+import MainLayout from "../layouts/MainLayout.astro";
 
+const apiUrl = "https://hp-api.onrender.com/api/spells";
+const response = await fetch(apiUrl);
+const data = await response.json();
+
+console.log(data);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout title="Harry Potter Spells">
+    <section class="book-cover">
+        <h2>Welcome wizard,</h2>
+        <p>This book contains {data.length} spells.</p>
+        <a href="../spells/1">Open book</a>
+    </section>
+</MainLayout>

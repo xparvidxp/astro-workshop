@@ -1,0 +1,44 @@
+---
+
+import MainLayout from "../../layouts/MainLayout.astro";
+
+interface Spell {
+  name: string;
+  description?: string;
+}
+
+interface Props {
+  spell: Spell;
+  index: number;
+  total: number;
+}
+
+export async function getStaticPaths() {
+    const apiUrl = "https://hp-api.onrender.com/api/spells";
+    const response = await fetch(apiUrl);
+    const spells = await response.json();
+    
+    return spells.map((spell, index) => ({
+        params: { spell: String(index + 1) },
+        props: {
+            spell,
+            index,
+            total: spells.length
+        }
+    }));
+}
+
+const { spell, index, total } = Astro.props as Props;
+
+---
+
+<MainLayout title={spell.name}>
+    <h2> { spell.description }</h2>
+    <p> Spell {index + 1} van {total}</p>
+    <a href="/">Close book</a>   
+</MainLayout>
+
+<!-- https://docs.astro.build/en/guides/routing/#dynamic-routes
+
+
+-->
