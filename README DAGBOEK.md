@@ -56,4 +56,4 @@ Ivm Smashing Conference niet aan de opdracht gewerkt.
 
 #Dag 7 - 22 april
 
-https://render.com/docs/deploy-astro
+https://render.com/docs/deploy-astroq
