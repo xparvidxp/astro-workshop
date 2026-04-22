@@ -12,6 +12,10 @@ import MainLayout from "../../layouts/MainLayout.astro";
 //   return str;
 // }
 
+const apiUrl = "https://hp-api.onrender.com/api/spells";
+const response = await fetch(apiUrl);
+const spells = await response.json();
+
 export async function getStaticPaths() {
     const apiUrl = "https://hp-api.onrender.com/api/spells";
     const response = await fetch(apiUrl);
@@ -31,11 +35,15 @@ const { spell, index, total } = Astro.props as Props;
 const currentPage = index + 1;
 ---
 
-<MainLayout title={spell.name}>
+<MainLayout>
+  <div class="wrapper">
+    <section class="open-book">
+        <h2>Spell details</h2>
+    <h1> { spell.name } </h1>
     <h2> { spell.description }</h2>
     <p> Spell {index + 1} van {total}</p>
     <nav>
-      <span>
+      <div class="button-wrapper">
           <a href="/">Close book</a>
           {currentPage < total && ( // Link naar volgende pagina, als er een volgende pagina is.
             <a href={`../spells/${currentPage + 1}`}>Next page</a>
@@ -45,36 +53,49 @@ const currentPage = index + 1;
           )}
             <button id="startBtn">Listen</button>
             <p class="output"></p>
-      </span>
+          </div>
     </nav>
+    </section>
+  </div>
     
-<script>
-  //@ts-nocheck
-  const SpeechRecognition = // gebruik optie A of B, als een niet bestaat.
-  (window).SpeechRecognition ||
-  (window).webkitSpeechRecognition;
+<script define:vars={{ spells }}>
+//@ts-nocheck
+const SpeechRecognition = // gebruik optie A of B, als een niet bestaat.
+(window).SpeechRecognition ||
+(window).webkitSpeechRecognition;
 
-  const diagnostic = document.querySelector(".output"); // output
-  const startBtn = document.getElementById("startBtn"); // knop
+const diagnostic = document.querySelector(".output"); // output
+const startBtn = document.getElementById("startBtn"); // knop
 
-  if (!SpeechRecognition) { // Als browser geen speech API heeft, geef melding.
-    console.log("SpeechRecognition wordt niet ondersteund in deze browser.");
+if (!SpeechRecognition) { // Als browser geen speech API heeft, geef melding.
+  console.log("SpeechRecognition wordt niet ondersteund in deze browser.");
+} else {
+  const recognition = new SpeechRecognition(); // Speech engine aanmaken
+  recognition.continuous = false; // Instellingen speechrecognition
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  startBtn.addEventListener("click", () => { // Starten van de speech recognition
+    console.log("Listening...");
+    recognition.start();
+  });
+
+recognition.onresult = (event) => { // Resultaat ontvangen
+  const spokenText = event.results[0][0].transcript;
+  console.log("Result:", spokenText);
+  diagnostic.textContent = `Result received: ${spokenText}`; // Weergave van het resultaat
+    
+let matchSpell = spells.findIndex(
+    (spell) => spokenText.toLowerCase().trim() === spell.name.toLowerCase().trim()
+  );
+
+  if (matchSpell !== -1) {
+    console.log(`Found spell: ${spells[matchSpell].name}`);
+    window.location.href = `/spells/${matchSpell + 1}`; // Navigeer naar pagina van de ingesproken spell
   } else {
-    const recognition = new SpeechRecognition(); // Speech engine aanmaken
-    recognition.continuous = false; // Instellingen speechrecognition
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    startBtn.addEventListener("click", () => { // Starten van de speech recognition
-      console.log("Listening...");
-      recognition.start();
-    });
-
-    recognition.onresult = (event) => { // Resultaat ontvangen
-      const spokenText = event.results[0][0].transcript;
-      console.log("Result:", spokenText);
-      diagnostic.textContent = `Result received: ${spokenText}`; // Weergave van het resultaat
+    console.log("No matching spell found."); // Error
+  }
     };
 
     recognition.onerror = (event) => { // Error
@@ -82,23 +103,11 @@ const currentPage = index + 1;
     };
   }
 
-  recognition.onresult = (event) => {
-  const spokenText = event.results[0][0].transcript.toLowerCase().trim();
-
-  const matchIndex = spellNames.findIndex(
-    (name) => name.toLowerCase() === spokenText
-  );
-
-  if (matchIndex !== -1) {
-    window.location.href = `/spells/${matchIndex + 1}`;
-  } else {
-    diagnostic.textContent = `Spell not found: ${spokenText}`;
-  }
-};
 </script>
 </MainLayout>
 
 <!--  https://docs.astro.build/en/guides/routing/#dynamic-routes
       https://dev.to/bybydev/how-to-slugify-a-string-in-javascript-4o9n
       https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
+      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
 -->

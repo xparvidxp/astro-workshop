@@ -54,6 +54,10 @@ Ivm Smashing Conference niet aan de opdracht gewerkt.
 
 # Dag 6 - 16 april
 
-#Dag 7 - 22 april
+Speech synthesis API laten werken, hij detecteert en logt nu wat er gesproken wordt. 
+Ik ga volgende week verder met het navigeren van spraak naar de juiste spell pagina. Dit heeft ongeveer 3 uur geduurd.
 
-https://render.com/docs/deploy-astroq
+# Dag 7 - 22 april
+
+Vandaag heb ik de Speechsynthesis gelinkt aan het navigeren. Hij vergelijkt de gesproken text nu met de array v.d. api. Als er een overeenkomt dan
+navigeert die via de index naar de juiste pagina. Dit heeft 3 uur geduurd. Ook heb ik een begin gemaakt met het stylen van de pagina. Morgen ga ik verder werken aan de styling zodat het meer op een boek lijkt, en animeert.

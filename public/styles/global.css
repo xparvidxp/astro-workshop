@@ -1,6 +1,95 @@
 * {
+    --primary-color: gold;
+    --secondary-color: #45150D;
+    --background-color: #F5F5DC;
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: var(--primary-color);
+
 }
 
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    padding: .5vw;
+    font-weight: bold;
+    border: 1px solid var(--primary-color);
+
+&&:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+
+    transition-duration: .5s;
+}
+}
+
+p {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+button {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+    padding-top:.65vw;
+    padding-bottom: .52vw;
+    cursor: pointer;
+    font-weight: bold;
+
+&&:hover {
+
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+
+    transition-duration: .5s;
+    }
+}
+
+h2 {
+    max-width:60ch;
+    text-align: center;
+    padding: 1vw;
+}
+
+.button-wrapper {
+    margin-top: 3vw;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color);
+}
+
+.book-cover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    height: 80%;
+    width: 30%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.open-book {
+    background-color: var(--secondary-color);
+    color: var(--primary-color)e;
+    height: 80%;
+    width: 60%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
