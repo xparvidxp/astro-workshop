@@ -81,6 +81,20 @@ const currentPage = index + 1;
       console.log("Speech error:", event.error);
     };
   }
+
+  recognition.onresult = (event) => {
+  const spokenText = event.results[0][0].transcript.toLowerCase().trim();
+
+  const matchIndex = spellNames.findIndex(
+    (name) => name.toLowerCase() === spokenText
+  );
+
+  if (matchIndex !== -1) {
+    window.location.href = `/spells/${matchIndex + 1}`;
+  } else {
+    diagnostic.textContent = `Spell not found: ${spokenText}`;
+  }
+};
 </script>
 </MainLayout>
 
