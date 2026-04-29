@@ -1,7 +1,9 @@
 * {
-    --primary-color: gold;
+    --primary-color: #e2c253;
+    --dark-primary-color: #d4ac24;
     --secondary-color: #45150D;
-    --background-color: #F5F5DC;
+    --background-color: #72391e;
+    --page-color: #F5F5DC;
 
     margin: 0;
     padding: 0;
@@ -54,10 +56,6 @@ h2 {
     padding: 1vw;
 }
 
-.button-wrapper {
-    margin-top: 3vw;
-}
-
 .wrapper {
     display: flex;
     justify-content: center;
@@ -66,28 +64,97 @@ h2 {
     background-color: var(--background-color);
 }
 
-.book-cover {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    height: 80%;
-    width: 30%;
-    border-radius: 15px;
+.button-wrapper {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    filter: drop-shadow(15px 15px 10px);
+    align-items:center;
 }
 
-.open-book {
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.book-cover {
     background-color: var(--secondary-color);
-    color: var(--primary-color)e;
+    aspect-ratio: 1.5 / 2;
     height: 80%;
-    width: 60%;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(15px 15px 10px);
+    filter: drop-shadow(5px 5px 2px rgb(18, 18, 18));
 }
+
+.book {
+    position: relative;
+    background-color: var(--secondary-color);
+    aspect-ratio: 1.5 / 2;
+    height: 80%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(5px 5px 10px rgb(18, 18, 18));
+
+&:first-child .page {
+    filter: drop-shadow(-3px 3px var(--dark-primary-color));
+  }
+
+&:last-child .page {
+    filter: drop-shadow(3px 3px var(--dark-primary-color));
+  }
+
+}
+
+.page {
+    background-color: var(--page-color);
+    border-radius: 15px;
+    position: absolute;
+    inset: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+.book:first-child .page {
+  view-transition-name: spell-page;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+::view-transition-new(spell-page) {
+  animation: page-flip-in 650ms ease-out both;
+  transform-origin: right center;
+  backface-visibility: hidden;
+}
+
+@keyframes page-flip-in {
+  from {
+    transform: perspective(1400px) rotateY(90deg);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: perspective(1400px) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/*  https://developer.chrome.com/docs/web-platform/view-transitions
+    https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/filter-function/drop-shadow
+*/

@@ -36,25 +36,37 @@ const currentPage = index + 1;
 ---
 
 <MainLayout>
+
   <div class="wrapper">
-    <section class="open-book">
+    <section class="book">
+      <div class="page">
+        <div class="content-wrapper">
         <h2>Spell details</h2>
-    <h1> { spell.name } </h1>
-    <h2> { spell.description }</h2>
-    <p> Spell {index + 1} van {total}</p>
-    <nav>
-      <div class="button-wrapper">
-          <a href="/">Close book</a>
-          {currentPage < total && ( // Link naar volgende pagina, als er een volgende pagina is.
-            <a href={`../spells/${currentPage + 1}`}>Next page</a>
-          )}
-          {currentPage > 1 && ( // Link naar vorige pagina, als er een vorige pagina is.
-            <a href={`../spells/${currentPage - 1}`}>Previous page</a>
-          )}
+        <h1> { spell.name } </h1>
+        <h2> { spell.description }</h2>
+        <p> Spell {index + 1} van {total}</p>
+      </div>
+      </div>
+
+    </section>
+
+    <section class="book">
+      <div class="page">
+        <nav>
+          <div class="button-wrapper">
+            <a href="/">Close book</a>
+            {currentPage < total && ( // Link naar volgende pagina, als er een volgende pagina is.
+              <a href={`../spells/${currentPage + 1}`}>Next page</a>
+            )}
+            {currentPage > 1 && ( // Link naar vorige pagina, als er een vorige pagina is.
+              <a href={`../spells/${currentPage - 1}`}>Previous page</a>
+            )}
             <button id="startBtn">Listen</button>
             <p class="output"></p>
           </div>
-    </nav>
+        </nav>
+      </div>
+        
     </section>
   </div>
     
@@ -102,12 +114,14 @@ let matchSpell = spells.findIndex(
       console.log("Speech error:", event.error);
     };
   }
-
 </script>
+
 </MainLayout>
 
 <!--  https://docs.astro.build/en/guides/routing/#dynamic-routes
       https://dev.to/bybydev/how-to-slugify-a-string-in-javascript-4o9n
       https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
       https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
+      https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API
+      https://developer.chrome.com/docs/web-platform/view-transitions
 -->
