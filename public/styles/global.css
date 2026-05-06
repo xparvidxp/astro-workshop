@@ -122,6 +122,10 @@ h2 {
     align-items: center;
 }
 
+.output {
+  visibility: hidden;
+}
+
 @view-transition {
   navigation: auto;
 }
